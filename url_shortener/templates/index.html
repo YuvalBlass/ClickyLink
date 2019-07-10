@@ -7,7 +7,7 @@
 
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-
+    <link rel="shortcut icon" type="image/png" href=""/>
     <title>ClickyLink</title>
   </head>
   <body background="https://htmlcolorcodes.com/assets/images/html-color-codes-color-tutorials-hero-00e10b1f.jpg">
@@ -32,15 +32,28 @@
           </div>
         </nav>
         <div class="jumbotron">
-            <hr>
             {% if remove_records %}
                 <div class="alert alert-success" role="alert">
                     You have deleted all records successfully!
                 </div>
             {% endif %}
-            <h1>Hi there!</h1>
-            <p>Have you ever wanted to get a custom short url protected by password?</p>
-            <hr><br>
+
+            <div class="card mb-3" style="max-width: 100%;">
+              <div class="row no-gutters">
+                <div class="col-md-4">
+                  <img style="border-radius: 0;" src="https://i.ibb.co/2v7d3G7/Clicky-Link.png" class="card-img" alt="...">
+                </div>
+                <div class="col-md-8" style="background-color: #313f49">
+                  <div class="card-body align-middle mt-5" style="color: white;">
+                    <h3 class="card-title">Hi there!</h3>
+                    <p class="card-text">
+                        Have you ever wanted to get a custom short url protected by password?Have you ever wanted to get a custom short url protected by password?Have you ever wanted to get a custom short url protected by password?Have you ever wanted to get a custom short url protected by password?Have you ever wanted to get a custom short url protected by password?Have you ever wanted to get a custom short url protected by password?Have you ever wanted to get a custom short url protected by password?Have you ever wanted to get a custom short url protected by password?
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
             <form method="POST" action="{{ url_for('page.add_link') }}">
 
                 <div class="form-group">
