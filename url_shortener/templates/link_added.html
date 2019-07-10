@@ -21,6 +21,9 @@
                 <label for="new_url">New URL</label>
                 <input name= "new_url" type="text" class="form-control" id="new_url" value="{{ url_for('page.redirect_to_url', short_url=new_link, _external=True) }}">
             </div>
+            <a href="{{ url_for('page.redirect_to_url', short_url=new_link, _external=True) }}">
+                <button type="button" class="btn btn-outline-success btn-lg btn-block">Get your link!</button>
+            </a>
         </div>
     </div>
 

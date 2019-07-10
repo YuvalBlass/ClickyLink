@@ -14,9 +14,12 @@ class Link(db.Model):
 
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
-        self.short_url = self.generate_short_link()
 
-    def generate_short_link(self):
+    def generate_short_link(self, requested):
+        if not self.query.filter_by(short_url=requested).first() and requested != "":
+            self.short_url = requested
+            return requested, True
+
         characters = string.digits + string.ascii_letters
         short_url = ''.join(choices(characters, k=3))
 
@@ -24,8 +27,8 @@ class Link(db.Model):
 
         if link:
             return self.generate_short_link()
-        
-        return short_url
+        self.short_url = short_url
+        return short_url, False
 
     def set_password(self, password):
         self.password_hash = generate_password_hash(password)

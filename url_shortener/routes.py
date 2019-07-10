@@ -48,14 +48,16 @@ def remove_all():
 @requires_auth
 def add_link():
     original_url = request.form['original_url']
+    requested_url = request.form['requested_url']
     password = request.form['password']
     link = Link(original_url=original_url)
+    temp = link.generate_short_link(requested_url)
     link.set_password(password)
     db.session.add(link)
     db.session.commit()
 
     return render_template('link_added.html', 
-        new_link=link.short_url, original_url=link.original_url)
+        new_link=link.short_url, approved=temp[1], original_url=link.original_url)
 
 
 @page.route('/info')
