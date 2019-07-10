@@ -5,7 +5,7 @@ ___
 * pip3 install python-dotenv  
 * pip3 install sqlalchemy
 
-Username: Admin
+Username: Admin  
 Password: password
 
 Then, type 'flask run' and enjoy!
