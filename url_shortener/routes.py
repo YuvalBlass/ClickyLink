@@ -11,12 +11,13 @@ page = Blueprint('page', __name__)
 def redirect_to_url(short_url):
     link = Link.query.filter_by(short_url=short_url).first_or_404()
     if link.check_password(""):
+        if link.expiration_date == datetime.max:
+            return redirect(link.original_url)
         if datetime.datetime.now() < link.expiration_date:
             return redirect(link.original_url)
-        else:
-            Link.query.filter(Link.short_url == short_url).delete()
-            db.session.commit()
-            redirect_to_url(short_url)
+        Link.query.filter(Link.short_url == short_url).delete()
+        db.session.commit()
+        redirect_to_url(short_url)
     return render_template('redirect.html', short_url=link.short_url, wrong_password=False)
 
 
