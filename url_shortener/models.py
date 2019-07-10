@@ -1,8 +1,9 @@
 import string
-from datetime import datetime
+from datetime import datetime, date
 from random import choices
 from werkzeug.security import generate_password_hash, check_password_hash
 from .extensions import db
+
 
 class Link(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -11,6 +12,7 @@ class Link(db.Model):
     visits = db.Column(db.Integer, default=0)
     date_created = db.Column(db.DateTime, default=datetime.now)
     password_hash = db.Column(db.String(128))
+    expiration_date = db.Column(db.DateTime, default=date.max)
 
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
@@ -26,7 +28,7 @@ class Link(db.Model):
         link = self.query.filter_by(short_url=short_url).first()
 
         if link:
-            return self.generate_short_link(), requested == ""
+            return self.generate_short_link(""), requested == ""
         self.short_url = short_url
         return short_url, requested == ""
 
@@ -35,3 +37,6 @@ class Link(db.Model):
 
     def check_password(self, password):
         return check_password_hash(self.password_hash, password)
+
+    def set_expdate(self, date):
+        self.expiration_date = date
