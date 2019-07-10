@@ -18,7 +18,6 @@ def redirect_to_url(short_url):
 
 
 @page.route('/')
-@requires_auth
 def index():
     users = Link.query.all()
     return render_template('index.html')
