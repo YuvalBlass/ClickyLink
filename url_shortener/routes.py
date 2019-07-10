@@ -14,7 +14,7 @@ def redirect_to_url(short_url):
     db.session.commit()
     return render_template('redirect.html',
                            original_url=link.original_url)
-    return redirect(link.original_url) 
+    # return redirect(link.original_url)
 
 
 @page.route('/')
