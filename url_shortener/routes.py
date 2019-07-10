@@ -1,3 +1,5 @@
+from datetime import datetime
+
 from flask import Blueprint, render_template, request, redirect
 
 from .extensions import db
@@ -50,6 +52,8 @@ def add_link():
     original_url = request.form['original_url']
     requested_url = request.form['requested_url']
     password = request.form['password']
+    date = request.form['date']
+    print(datetime.strptime(date,"%Y-%m-%d"))
     link = Link(original_url=original_url)
     temp = link.generate_short_link(requested_url)
     link.set_password(password)
