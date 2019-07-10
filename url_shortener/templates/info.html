@@ -1,37 +1,44 @@
 <!DOCTYPE html>
 <html>
 
-<head>
+  <head>
+    <!-- Required meta tags -->
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
     <title>ClickyLink</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.5/css/bulma.min.css">
-    <script defer src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"></script>
-</head>
+
+  </head>
 
 <body background="https://htmlcolorcodes.com/assets/images/html-color-codes-color-tutorials-hero-00e10b1f.jpg">
-    <section class="section text-center">
-        <div class="container">
-            <table class="table">
-                <thead>
-                    <tr>
-                        <th>Original URL</th>
-                        <th>Short URL</th>
-                        <th>Visits</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for link in links %}
-                    <tr>
-                        <td>{{ link.original_url }}</td>
-                        <td>{{ url_for('page.redirect_to_url', short_url=link.short_url, _external=True) }}</td>
-                        <td>{{ link.visits }}</td>
-                    </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
+        <div class="container mt-5">
+            <div class="jumbotron">
+                <hr><h2 class="display-4 text-center">Info</h2><hr>
+                <table class="table table-striped mt-5">
+                    <thead class="thead-dark">
+                        <tr>
+                            <th scope="col">Original URL</th>
+                            <th scope="col">Short URL</th>
+                            <th scope="col">Date Of Creation</th>
+                            <th scope="col">Visits</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for link in links %}
+                        <tr>
+                            <td>{{ link.original_url }}</td>
+                            <td><a target="_blank" href="{{ url_for('page.redirect_to_url', short_url=link.short_url, _external=True) }}">{{ url_for('page.redirect_to_url', short_url=link.short_url, _external=True) }}</a></td>
+                            <td>{{ link.date_created }}</td>
+                            <td>{{ link.visits }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
         </div>
-    </section>
 
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
