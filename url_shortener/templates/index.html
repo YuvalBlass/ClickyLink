@@ -33,6 +33,11 @@
         </nav>
         <div class="jumbotron">
             <hr>
+            {% if remove_records %}
+                <div class="alert alert-success" role="alert">
+                    You removed all the branches successfully!
+                </div>
+            {% endif %}
             <h1>Hi there!</h1>
             <p>Created by us</p>
             <hr><br>

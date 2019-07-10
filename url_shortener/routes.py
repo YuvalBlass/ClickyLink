@@ -31,7 +31,7 @@ def get_link(short_url):
 @requires_auth
 def index():
     users = Link.query.all()
-    return render_template('index.html')
+    return render_template('index.html', remove_records=False)
 
 
 @page.route('/remove_all')
@@ -41,7 +41,7 @@ def remove_all():
     for u in users:
         db.session.delete(u)
     db.session.commit()
-    return "Removed"
+    return render_template('index.html', remove_records=True)
 
 
 @page.route('/add_link', methods=['POST'])
