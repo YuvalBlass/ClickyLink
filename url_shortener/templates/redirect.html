@@ -16,9 +16,20 @@
             <hr>
             <h1>Your link is ready!</h1>
             <hr><br>
-            <a href="{{ original_url }}" class="">
-                <button type="button" class="btn btn-outline-success btn-lg btn-block">Get your link!</button>
-            </a>
+            <form method="POST" action="{{ url_for('page.get_link', short_url=short_url) }}">
+
+                <div class="form-group">
+                    <label for="password">Enter the password</label>
+                    <input name= "password" type="password" class="form-control" id="original_url" placeholder="your password please">
+                    <small class="form-text text-muted">Description</small>
+                </div>
+
+                <div class="control">
+                    <button type="submit" class="btn btn-outline-primary">Shorten</button>
+                </div>
+
+            </form>
+
         </div>
     </div>
 

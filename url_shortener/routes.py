@@ -10,12 +10,22 @@ page = Blueprint('page', __name__)
 @page.route('/<short_url>')
 def redirect_to_url(short_url):
     link = Link.query.filter_by(short_url=short_url).first_or_404()
-    link.visits += 1
-    db.session.commit()
-    return render_template('redirect.html',
-                           original_url=link.original_url)
-    # return redirect(link.original_url)
+    if link.check_password(""):
+        return redirect(link.original_url)
+    return render_template('redirect.html', short_url=link.short_url)
 
+
+@page.route('/get_link/<short_url>', methods=['POST'])
+@requires_auth
+def get_link(short_url):
+    password = request.form['password']
+    link = Link.query.filter_by(short_url=short_url).first_or_404()
+    if (link.check_password(password)):
+        link.visits += 1
+        db.session.commit()
+        return redirect(link.original_url)
+    else:
+        return "Wrong password!"
 
 @page.route('/')
 @requires_auth
@@ -38,8 +48,9 @@ def remove_all():
 @requires_auth
 def add_link():
     original_url = request.form['original_url']
+    password = request.form['password']
     link = Link(original_url=original_url)
-    #link.set_password('password')
+    link.set_password(password)
     db.session.add(link)
     db.session.commit()
 
