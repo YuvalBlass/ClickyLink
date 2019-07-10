@@ -1,7 +1,5 @@
-from datetime import datetime
-
 from flask import Blueprint, render_template, request, redirect
-
+import datetime
 from .extensions import db
 from .models import Link
 from .auth import requires_auth
@@ -13,7 +11,12 @@ page = Blueprint('page', __name__)
 def redirect_to_url(short_url):
     link = Link.query.filter_by(short_url=short_url).first_or_404()
     if link.check_password(""):
-        return redirect(link.original_url)
+        if datetime.datetime.now() < link.expiration_date:
+            return redirect(link.original_url)
+        else:
+            Link.query.filter(Link.short_url == short_url).delete()
+            db.session.commit()
+            redirect_to_url(short_url)
     return render_template('redirect.html', short_url=link.short_url, wrong_password=False)
 
 
@@ -22,12 +25,13 @@ def redirect_to_url(short_url):
 def get_link(short_url):
     password = request.form['password']
     link = Link.query.filter_by(short_url=short_url).first_or_404()
-    if (link.check_password(password)):
+    if link.check_password(password):
         link.visits += 1
         db.session.commit()
         return redirect(link.original_url)
     else:
         return render_template('redirect.html', short_url=link.short_url, wrong_password=True)
+
 
 @page.route('/')
 @requires_auth
@@ -52,16 +56,18 @@ def add_link():
     original_url = request.form['original_url']
     requested_url = request.form['requested_url']
     password = request.form['password']
-    date = request.form['date']
-    print(datetime.strptime(date,"%Y-%m-%d"))
+    expdate = request.form['expdate']
     link = Link(original_url=original_url)
     temp = link.generate_short_link(requested_url)
     link.set_password(password)
+    link.set_expdate(datetime.datetime.strptime(expdate, "%Y-%m-%d"))
     db.session.add(link)
     db.session.commit()
 
-    return render_template('link_added.html', 
-        new_link=link.short_url, approved=(not temp[1]), original_url=link.original_url)
+    return render_template('link_added.html',
+                           new_link=link.short_url,
+                           approved=(not temp[1]),
+                           original_url=link.original_url)
 
 
 @page.route('/info')
