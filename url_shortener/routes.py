@@ -57,7 +57,7 @@ def add_link():
     db.session.commit()
 
     return render_template('link_added.html', 
-        new_link=link.short_url, approved=temp[1], original_url=link.original_url)
+        new_link=link.short_url, approved=(not temp[1]), original_url=link.original_url)
 
 
 @page.route('/info')

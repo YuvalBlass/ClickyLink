@@ -13,6 +13,11 @@
   <body>
     <div class="container mt-5">
         <div class="jumbotron">
+            {% if approved %}
+            <div class="alert alert-danger" role="alert">
+                The custom link you requested is not available!
+            </div>
+            {% endif %}
             <div class="form-group">
                 <label for="original_url">Original URL</label>
                 <input name= "original_url" type="text" class="form-control" id="original_url" value="{{ original_url }}">
