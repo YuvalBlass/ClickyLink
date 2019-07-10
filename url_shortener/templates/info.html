@@ -42,6 +42,7 @@
                             <th scope="col">Original URL</th>
                             <th scope="col">Short URL</th>
                             <th scope="col">Date Of Creation</th>
+                            <th scope="col">Expiration date</th>
                             <th scope="col">Visits</th>
                         </tr>
                     </thead>
@@ -55,6 +56,7 @@
                             {%  endif %}
                             <td><a target="_blank" href="{{ url_for('page.redirect_to_url', short_url=link.short_url, _external=True) }}">{{ url_for('page.redirect_to_url', short_url=link.short_url, _external=True) }}</a></td>
                             <td>{{ link.date_created }}</td>
+                            <td>{{ link.expiration_date }}</td>
                             <td>{{ link.visits }}</td>
                         </tr>
                         {% endfor %}

@@ -1,5 +1,5 @@
 from flask import Blueprint, render_template, request, redirect
-import datetime
+from datetime import datetime
 from .extensions import db
 from .models import Link
 from .auth import requires_auth
@@ -60,7 +60,10 @@ def add_link():
     link = Link(original_url=original_url)
     temp = link.generate_short_link(requested_url)
     link.set_password(password)
-    link.set_expdate(datetime.datetime.strptime(expdate, "%Y-%m-%d"))
+    if expdate:
+        link.set_expdate(datetime.strptime(expdate, "%Y-%m-%d"))
+    else:
+        link.set_expdate(datetime.max)
     db.session.add(link)
     db.session.commit()
 
