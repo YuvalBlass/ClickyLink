@@ -22,7 +22,6 @@ def redirect_to_url(short_url):
 
 
 @page.route('/get_link/<short_url>', methods=['POST'])
-@requires_auth
 def get_link(short_url):
     password = request.form['password']
     link = Link.query.filter_by(short_url=short_url).first_or_404()
@@ -35,7 +34,6 @@ def get_link(short_url):
 
 
 @page.route('/')
-@requires_auth
 def index():
     users = Link.query.all()
     return render_template('index.html', remove_records=False)
@@ -52,7 +50,6 @@ def remove_all():
 
 
 @page.route('/add_link', methods=['POST'])
-@requires_auth
 def add_link():
     original_url = request.form['original_url']
     requested_url = request.form['requested_url']
