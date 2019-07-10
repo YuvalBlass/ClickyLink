@@ -51,7 +51,7 @@
                             {% if link.check_password("") %}
                                 <td>{{ link.original_url }}</td>
                             {% else %}
-                                <td>-This link is secured-</td>
+                                <td><b style="color: red;">-This link is secured-</b></td>
                             {%  endif %}
                             <td><a target="_blank" href="{{ url_for('page.redirect_to_url', short_url=link.short_url, _external=True) }}">{{ url_for('page.redirect_to_url', short_url=link.short_url, _external=True) }}</a></td>
                             <td>{{ link.date_created }}</td>
