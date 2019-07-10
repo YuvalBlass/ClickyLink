@@ -39,6 +39,7 @@ def remove_all():
 def add_link():
     original_url = request.form['original_url']
     link = Link(original_url=original_url)
+    #link.set_password('password')
     db.session.add(link)
     db.session.commit()
 

@@ -1,7 +1,7 @@
 import string
 from datetime import datetime
 from random import choices
-
+from werkzeug.security import generate_password_hash, check_password_hash
 from .extensions import db
 
 class Link(db.Model):
@@ -10,6 +10,7 @@ class Link(db.Model):
     short_url = db.Column(db.String(3), unique=True)
     visits = db.Column(db.Integer, default=0)
     date_created = db.Column(db.DateTime, default=datetime.now)
+    password_hash = db.Column(db.String(128))
 
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
@@ -25,3 +26,9 @@ class Link(db.Model):
             return self.generate_short_link()
         
         return short_url
+
+    def set_password(self, password):
+        self.password_hash = generate_password_hash(password)
+
+    def check_password(self, password):
+        return check_password_hash(self.password_hash, password)
