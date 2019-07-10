@@ -13,6 +13,11 @@
   <body>
     <div class="container mt-5">
         <div class="jumbotron">
+            {% if wrong_password %}
+                <div class="alert alert-danger" role="alert">
+                    Wrong password!
+                </div>
+            {% endif %}
             <hr>
             <h1>Your link is ready!</h1>
             <hr><br>

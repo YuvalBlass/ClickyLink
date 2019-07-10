@@ -12,7 +12,7 @@ def redirect_to_url(short_url):
     link = Link.query.filter_by(short_url=short_url).first_or_404()
     if link.check_password(""):
         return redirect(link.original_url)
-    return render_template('redirect.html', short_url=link.short_url)
+    return render_template('redirect.html', short_url=link.short_url, wrong_password=False)
 
 
 @page.route('/get_link/<short_url>', methods=['POST'])
@@ -25,7 +25,7 @@ def get_link(short_url):
         db.session.commit()
         return redirect(link.original_url)
     else:
-        return "Wrong password!"
+        return render_template('redirect.html', short_url=link.short_url, wrong_password=True)
 
 @page.route('/')
 @requires_auth
