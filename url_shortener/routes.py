@@ -10,7 +10,7 @@ page = Blueprint('page', __name__)
 @page.route('/<short_url>')
 def redirect_to_url(short_url):
     link = Link.query.filter_by(short_url=short_url).first_or_404()
-    if link.check_password(""):
+    if not link.has_password:
         if link.expiration_date == datetime.max:
             return redirect(link.original_url)
         if datetime.datetime.now() < link.expiration_date:
@@ -57,7 +57,8 @@ def add_link():
     expdate = request.form['expdate']
     link = Link(original_url=original_url)
     temp = link.generate_short_link(requested_url)
-    link.set_password(password)
+    if password != "":
+        link.set_password(password)
     if expdate:
         link.set_expdate(datetime.strptime(expdate, "%Y-%m-%d"))
     else:
@@ -72,7 +73,6 @@ def add_link():
 
 
 @page.route('/info')
-@requires_auth
 def stats():
     links = Link.query.all()
 
